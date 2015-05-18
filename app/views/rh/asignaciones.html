@@ -1,0 +1,115 @@
+<section class="content-header" data-ng-init="rhea.initEmpleado()">
+    <h1>Recursos Humanos<small>Empleados</small></h1>
+    <ol class="breadcrumb">
+        <li><a href="./"><i class="fa fa-home"></i> Home</a></li>
+        <li><a href="rh/"><i class="fa fa-male"></i> Recursos Humanos</a></li>
+        <li><a href="rh/empleados"><i class="fa fa-users"></i> Empleados</a></li>
+        <li><a href="rh/empleados/{{rhea.empleado._id}}"><i class="fa fa-user "></i> {{rhea.empleado._id}}</li></a>
+        <li class="active"><i class="fa fa-briefcase"></i> Asignaciones</li>
+    </ol>
+</section>
+<section class="content">
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="box">
+                <div class="box-header with-border">
+                    <h2 class="box-title">{{rhea.empleado.nombres}} {{rhea.empleado.apellidos}} <small>({{rhea.empleado._id}})</small></h2>
+                    <div class="box-tools pull-right">
+	                    <a role="button" data-ng-class="{'btn btn-success btn-xs active' : rhea.empleado.activo, 'btn btn-danger btn-xs　active' : !rhea.empleado.activo}">
+                        	<i data-ng-class="{'fa fa-smile-o' : rhea.empleado.activo, 'fa fa-frown-o text-muted' : !rhea.empleado.activo}"></i> {{rhea.empleado.activo ? 'Activo' : ' Inactivo'}}
+	                    </a>
+                    </div>
+                </div>
+				<div class="box-body">
+					<h3>Asignaciones</h3>
+				</div>
+			</div>
+		</div>
+	</div>
+	<ul class="timeline">
+		<li class="time-label">
+			<span class="bg-yellow"><i class="fa fa-briefcase"></i> {{rhea.getCurrentDate() | date: 'dd MMM yyyy'}}</span>
+		</li>
+		<li data-ng-repeat="asignacion in rhea.asignaciones">
+            <i class="fa fa-user-secret bg-blue"></i>
+            <div class="timeline-item">
+	            <span class="time"><i class="fa fa-calendar"></i> <strong>{{asignacion.fecha_ini | date: 'dd MMM yyyy'}}</strong> - <strong>{{asignacion.fecha_fin | date: 'dd MMM yyyy'}}</strong></span>
+	            <h3 class="timeline-header">{{asignacion._id}} - <a href="#">{{rhea.proyectos[asignacion.proyecto].proyecto}}</a></h3>
+	            <div class="timeline-body">
+		            <div class="row">
+			            <div class="col-md-8">
+				            <form class="form-horizontal">
+					            <div class="form-group">
+						            <label for="inputId" class="col-sm-4 control-label">ID:</label>
+						            <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="inputId" data-ng-model="asignacion._id" readonly="readonly" />
+                                    </div>
+					            </div>
+					            <div class="form-group">
+						            <label for="inputFecInicio" class="col-sm-4 control-label">Fecha de Inicio:</label>
+						            <div class="col-sm-8">
+							            <div class="input-group">
+	                                    	<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+											<input type="text" class="form-control" id="inputFecInicio" data-ng-model="asignacion.fecha_ini" readonly="readonly" />
+							            </div>
+                                    </div>
+					            </div>
+					            <div class="form-group">
+						            <label for="inputFecTermino" class="col-sm-4 control-label">Fecha de Termino:</label>
+						            <div class="col-sm-8">
+                                        <div class="input-group">
+	                                    	<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+											<input type="text" class="form-control" id="inputFecTermino" data-ng-model="asignacion.fecha_fin" readonly="readonly" />
+                                        </div>
+                                    </div>
+					            </div>
+					            <div class="form-group">
+						            <label for="inputId" class="col-sm-4 control-label">Rol:</label>
+						            <div class="col-sm-8">
+                                        <select class="form-control" ng-options="rol._id for rol in rhea.ROLES_CAT" data-ng-model="asignacion.rol_id"></select>
+                                    </div>
+					            </div>
+					            <div class="form-group">
+						            <label for="inputId" class="col-sm-4 control-label">Nivel:</label>
+						            <div class="col-sm-8">
+                                        <select class="form-control">
+	                                        <option>{{asignacion.rol_nivel}}</option>
+                                        </select>
+                                    </div>
+					            </div>
+					            <div class="form-group">
+						            <label for="inputId" class="col-sm-4 control-label">Equipo de Trabajo:</label>
+						            <div class="col-sm-8">
+                                        <select class="form-control">
+	                                        <option>{{asignacion.equipo_trabajo}}</option>
+                                        </select>
+                                    </div>
+					            </div>
+					            <div class="form-group">
+						            <label for="inputId" class="col-sm-4 control-label">Proyecto:</label>
+						            <div class="col-sm-8">
+                                        <select class="form-control">
+	                                        <option>{{asignacion.proyecto}}</option>
+                                        </select>
+                                    </div>
+					            </div>
+					            <div class="form-group">
+						            <label for="inputFecTermino" class="col-sm-4 control-label">Fecha de Termino:</label>
+						            <div class="col-sm-8">
+                                        <div class="input-group">
+											<textarea class="form-control" data-ng-model="asignacion.comentarios"></textarea>
+                                        </div>
+                                    </div>
+					            </div>
+				            </form>
+			            </div>
+			            <div class="col-md-4">
+				            BOTONES
+			            </div>
+		            </div>
+	            </div>
+            </div>
+		
+		</li>
+	</ul>	
+</section>
