@@ -16,6 +16,12 @@
 			{id: '@id'}
 		);
 		
+		vm.ProyectoLookup = $resource (
+			'http://127.0.0.1:3000/armentum/api/proyectos',
+			{key: '@key'},
+			{lookup: {method: 'GET', isArray: true}}
+		);
+		
 		return vm;
 	
 	};

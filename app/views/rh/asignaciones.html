@@ -13,7 +13,7 @@
 		<div class="col-xs-12">
 			<div class="box">
                 <div class="box-header with-border">
-                    <h2 class="box-title">{{rhea.empleado.nombres}} {{rhea.empleado.apellidos}} <small>({{rhea.empleado._id}})</small></h2>
+                    <h2 class="box-title">{{rhea.empleado.nombres}} {{rhea.empleado.apellidos}} <small>({{rhea.empleado._id}})</small> - Asignaciones</h2>
                     <div class="box-tools pull-right">
 	                    <a role="button" data-ng-class="{'btn btn-success btn-xs active' : rhea.empleado.activo, 'btn btn-danger btn-xs　active' : !rhea.empleado.activo}">
                         	<i data-ng-class="{'fa fa-smile-o' : rhea.empleado.activo, 'fa fa-frown-o text-muted' : !rhea.empleado.activo}"></i> {{rhea.empleado.activo ? 'Activo' : ' Inactivo'}}
@@ -21,7 +21,16 @@
                     </div>
                 </div>
 				<div class="box-body">
-					<h3>Asignaciones</h3>
+					<div class="row">
+						<div class="col-xs-12">
+							<div class="pull-right">
+								<a class="btn btn-app bg-green" href="#" role="button" data-ng-click="rhea.showNewDialog()">
+	                                <i class="fa fa-plus-circle"></i>
+	                                Nueva Asignaci&oacute;n
+	                            </a>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -36,8 +45,11 @@
 	            <span class="time"><i class="fa fa-calendar"></i> <strong>{{asignacion.fecha_ini | date: 'dd MMM yyyy'}}</strong> - <strong>{{asignacion.fecha_fin | date: 'dd MMM yyyy'}}</strong></span>
 	            <h3 class="timeline-header">{{asignacion._id}} - <a href="#">{{rhea.proyectos[asignacion.proyecto].proyecto}}</a></h3>
 	            <div class="timeline-body">
+		            <div calss="row">
+			            
+		            </div>
 		            <div class="row">
-			            <div class="col-md-8">
+			            <div class="col-md-10">
 				            <form class="form-horizontal">
 					            <div class="form-group">
 						            <label for="inputId" class="col-sm-4 control-label">ID:</label>
@@ -50,7 +62,7 @@
 						            <div class="col-sm-8">
 							            <div class="input-group">
 	                                    	<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-											<input type="text" class="form-control" id="inputFecInicio" data-ng-model="asignacion.fecha_ini" readonly="readonly" />
+											<input type="text" class="form-control" id="inputFecInicio" data-ng-model="asignacion.fecha_ini" data-ng-readonly="!asignacion.editable" />
 							            </div>
                                     </div>
 					            </div>
@@ -59,57 +71,265 @@
 						            <div class="col-sm-8">
                                         <div class="input-group">
 	                                    	<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-											<input type="text" class="form-control" id="inputFecTermino" data-ng-model="asignacion.fecha_fin" readonly="readonly" />
+											<input type="text" class="form-control" id="inputFecTermino" data-ng-model="asignacion.fecha_fin" data-ng-readonly="!asignacion.editable" />
                                         </div>
                                     </div>
 					            </div>
 					            <div class="form-group">
 						            <label for="inputId" class="col-sm-4 control-label">Rol:</label>
 						            <div class="col-sm-8">
-                                        <select class="form-control" ng-options="rol._id for rol in rhea.ROLES_CAT" data-ng-model="asignacion.rol_id"></select>
+                                        <select class="form-control" data-ng-options="id*1 as rol for (id, rol) in rhea.ROLES_CAT" data-ng-model="asignacion.rol_id" data-ng-disabled="!asignacion.editable"></select>
                                     </div>
 					            </div>
 					            <div class="form-group">
 						            <label for="inputId" class="col-sm-4 control-label">Nivel:</label>
 						            <div class="col-sm-8">
-                                        <select class="form-control">
-	                                        <option>{{asignacion.rol_nivel}}</option>
-                                        </select>
+	                                    <select class="form-control" convert-to-number data-ng-options="id*1 as nivel for (id, nivel) in rhea.ROL_NIVELES_CAT" data-ng-model="asignacion.rol_nivel" data-ng-disabled="!asignacion.editable"></select>
                                     </div>
 					            </div>
 					            <div class="form-group">
 						            <label for="inputId" class="col-sm-4 control-label">Equipo de Trabajo:</label>
 						            <div class="col-sm-8">
-                                        <select class="form-control">
-	                                        <option>{{asignacion.equipo_trabajo}}</option>
-                                        </select>
+                                        <select class="form-control" convert-to-number data-ng-options="id*1 as equipo for (id, equipo) in rhea.EQUIPOS_TRABAJO_CAT" data-ng-model="asignacion.equipo_trabajo" data-ng-disabled="!asignacion.editable"></select>
                                     </div>
 					            </div>
 					            <div class="form-group">
-						            <label for="inputId" class="col-sm-4 control-label">Proyecto:</label>
+						            <label for="inputProyecto" class="col-sm-4 control-label">Proyecto:</label>
 						            <div class="col-sm-8">
-                                        <select class="form-control">
-	                                        <option>{{asignacion.proyecto}}</option>
-                                        </select>
-                                    </div>
+							            <div class="pull-right">
+								            <button class="btn btn-default btn-xs" data-ng-disabled="!asignacion.editable" ><i class="fa fa-compass"></i> Cambiar Proyecto</button>
+							            </div>
+										<div class="well">{{rhea.proyectos[asignacion.proyecto].proyecto}}</div>
+						            </div>
 					            </div>
 					            <div class="form-group">
-						            <label for="inputFecTermino" class="col-sm-4 control-label">Fecha de Termino:</label>
+						            <label for="inputFecTermino" class="col-sm-4 control-label">Comentarios:</label>
 						            <div class="col-sm-8">
-                                        <div class="input-group">
-											<textarea class="form-control" data-ng-model="asignacion.comentarios"></textarea>
-                                        </div>
+										<textarea class="form-control" data-ng-model="asignacion.comentarios" data-ng-readonly="!asignacion.editable"></textarea>
                                     </div>
 					            </div>
 				            </form>
 			            </div>
-			            <div class="col-md-4">
-				            BOTONES
+			            <div class="col-md-2">
+				            <div class="row">
+					            <div class="col-md-2">
+                                    <a class="btn btn-app bg-blue" role="button" href="#" data-ng-click="rhea.allowEditAsignacion(asignacion._id)" data-ng-show="!asignacion.editable">
+                                        <i class="fa fa-pencil-square-o"></i>
+                                        Editar
+                                    </a>
+                                    <a class="btn btn-app bg-red" role="button" href="#" data-ng-click="rhea.cancelEditAsignacion(asignacion._id)" data-ng-show="asignacion.editable">
+                                        <i class="fa fa-times-circle"></i>
+                                        Cancelar
+                                    </a>
+                                    <a class="btn btn-app bg-green" role="button" href="#" data-ng-click="" data-ng-show="asignacion.editable">
+                                        <i class="fa fa-floppy-o"></i>
+                                        Guardar
+                                    </a>
+					            </div>
+				            </div>
 			            </div>
 		            </div>
 	            </div>
-            </div>
-		
+            </div>		
 		</li>
+		<li>
+        	<i class="fa fa-clock-o bg-gray"></i>
+        </li>
 	</ul>	
 </section>
+<!-- Mensaje Modal para nueva asignación -->
+<script type="text/ng-template" id="modalNewAsignacion.html">
+	<!-- div class="modal modal-info">
+		<div class="modal-dialog">
+			<div class="modal-content" -->
+				<div class="modal-header bg-info" >
+					<button type="button" class="close" ng-click="rhean.rhean.closeCancel()" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4><i class="fa fa-plus-square" ></i> Nueva Asignación:</h4>
+					<h6><i class="fa fa-asterisk"></i> Requerido</h6>
+				</div>
+				<div class="modal-body">
+			        <form class="form-horizontal" name="asForm" novalidate >
+			            <div class="form-group">
+				            <label for="inputFecInicio" class="col-sm-4 control-label"><i class="fa fa-asterisk"></i> Fecha de Inicio:</label>
+				            <div class="col-sm-7">
+					            <div class="input-group">
+									<!-- input type="text" class="form-control" id="inputFecInicio" datepicker-popup="{{rhean.dpFormat}}" is-open="rhean.isOpen" datepicker-options="rhean.dpOpts" min-date="rhean.minDate" max-date="'2015-06-22'" date-disabled="rhean.dpDisable(date, mode)" data-ng-required="true" close-text="close" data-ng-model="rhean.asignacion.fecha_ini" required / -->
+									<input 
+										type="text" 
+										class="form-control" 
+										id="inputFecInicio" 
+										name="inputFecInicio"
+										is-open="rhean.isIniOpen"
+										data-ng-required="true" 
+										data-ng-model="rhean.asignacion.fecha_ini" 
+										date-disabled="rhean.dateDisabled(date, mode)"
+										datepicker-popup
+										data-ng-readonly="true"
+										date-parser="dd-MMM-yyyy" />
+									<span class="input-group-btn">
+										<button type="button" id="btnFecIni" class="btn btn-default" data-ng-click="rhean.dpIniOpen($event, asForm.inputFecInicio)"><i class="fa fa-calendar"></i></button>
+									</span>
+					            </div>
+			                </div>
+			                <div class="col-xs-1">
+				                <div class="center-block">
+					                <div class="text-danger" data-ng-show="asForm.inputFecInicio.$invalid && asForm.inputFecInicio.$touched"><i class="fa fa-exclamation"></i></div>
+					                <div class="text-success" data-ng-show="asForm.inputFecInicio.$valid && asForm.inputFecInicio.$touched"><i class="fa fa-check"></i></div>
+			                	</div>
+			                </div>
+			            </div>
+			            <div class="form-group">
+				            <label for="inputFecTermino" class="col-sm-4 control-label">Fecha de Termino:</label>
+				            <div class="col-sm-7">
+			                    <div class="input-group">
+				                    <input 
+										type="text" 
+										class="form-control" 
+										id="inputFecTermino" 
+										name="inputFecTermino"
+										is-open="rhean.isFinOpen"
+										data-ng-required="false" 
+										data-ng-model="rhean.asignacion.fecha_fin" 
+										date-disabled="rhean.dateDisabled(date, mode)"
+										min-date="rhean.asignacion.fecha_ini"
+										datepicker-popup
+										data-ng-readonly="true"
+										date-parser="dd-MMM-yyyy" />
+									<span class="input-group-btn">
+										<button type="button" class="btn btn-default" data-ng-click="rhean.dpOpen($event, asForm.inputFecTermino, 'isFinOpen')" data-ng-disabled="!asForm.inputFecInicio.$valid" ><i class="fa fa-calendar"></i></button>
+									</span>
+			                    </div>
+			                </div>
+			                <div class="col-xs-1">
+			                </div>
+			            </div>
+			            <div class="form-group">
+				            <label for="inputId" class="col-sm-4 control-label"><i class="fa fa-asterisk"></i> Rol:</label>
+				            <div class="col-sm-7">
+			                    <select 
+				                    name="selectRolId"
+				                    data-ng-required="true" 
+					                class="form-control" 
+						            data-ng-options="id*1 as rol for (id, rol) in rhean.ROLES_CAT" 
+							        data-ng-model="rhean.asignacion.rol_id" 
+								    data-ng-required="true" >
+								</select>
+			                </div>
+			                <div class="col-xs-1">
+				            	<div class="center-block">
+				                	<div class="text-danger" data-ng-show="asForm.selectRolId.$invalid && asForm.selectRolId.$touched"><i class="fa fa-exclamation"></i></div>
+									<div class="text-success" data-ng-show="asForm.selectRolId.$valid && asForm.selectRolId.$touched"><i class="fa fa-check"></i></div>
+		                		</div>
+			            	</div>
+			            </div>
+			            
+			            <div class="form-group">
+				            <label for="inputId" class="col-sm-4 control-label"><i class="fa fa-asterisk"></i> Nivel:</label>
+				            <div class="col-sm-7">
+			                    <select 
+				                    class="form-control" 
+					                data-ng-required="true"
+						            name="selectRolNivel"
+					                convert-to-number 
+						            data-ng-options="id*1 as nivel for (id, nivel) in rhean.ROL_NIVELES_CAT" 
+							        data-ng-model="rhean.asignacion.rol_nivel" 
+								    data-ng-required="true" >
+								</select>
+			                </div>
+			                <div class="col-xs-1">
+				            	<div class="center-block">
+				                	<div class="text-danger" data-ng-show="asForm.selectRolNivel.$invalid && asForm.selectRolNivel.$touched"><i class="fa fa-exclamation"></i></div>
+									<div class="text-success" data-ng-show="asForm.selectRolNivel.$valid && asForm.selectRolNivel.$touched"><i class="fa fa-check"></i></div>
+		                		</div>
+			            	</div>
+			            </div>
+			            <div class="form-group">
+				            <label for="inputId" class="col-sm-4 control-label"><i class="fa fa-asterisk"></i> Equipo de Trabajo:</label>
+				            <div class="col-sm-7">
+			                    <select 
+				                    class="form-control" 
+					                convert-to-number 
+						            data-ng-options="id*1 as equipo for (id, equipo) in rhean.EQUIPOS_TRABAJO_CAT" 
+							        data-ng-model="rhean.asignacion.equipo_trabajo" 
+								    data-ng-required="true"
+									name="selectEqTrabajo"
+								    data-ng-required="true" >
+								</select>
+			                </div>
+			                <div class="col-xs-1">
+				            	<div class="center-block">
+				                	<div class="text-danger" data-ng-show="asForm.selectEqTrabajo.$invalid && asForm.selectEqTrabajo.$touched"><i class="fa fa-exclamation"></i></div>
+									<div class="text-success" data-ng-show="asForm.selectEqTrabajo.$valid && asForm.selectEqTrabajo.$touched"><i class="fa fa-check"></i></div>
+		                		</div>
+			            	</div>
+			            </div>
+			            <div class="form-group">
+				            <label for="inputProyecto" class="col-sm-4 control-label"><i class="fa fa-asterisk"></i> Proyecto:</label>
+				            <div class="col-sm-7">
+					            <div class="container-fluid">
+						            <!-- pre>Model: {{rhean.selectProject | json}} Loading: {{rhean.loading}}</pre -->
+									<input
+										type="text"
+										data-ng-model="rhean.selectedProject"
+										typeahead-loading="rhean.loading"
+										typeahead="proyecto as proyecto.proyecto for proyecto in rhean.getLookProyectosByKey($viewValue)"
+										class="form-control"
+										id="inputProyecto"
+										name="inputProyecto"
+										data-ng-change="rhean.setProyectoValue()"
+										data-ng-required="true" />
+					            </div>
+				            </div>
+				            <div class="col-xs-1">
+				            	<div class="center-block">
+					            	<div class="text-info" data-ng-show="rhean.loading"><i class="fa fa-cog fa-spin"></i></div>
+				                	<div class="text-danger" data-ng-show="asForm.selectProy.$invalid && asForm.selectProy.$touched"><i class="fa fa-exclamation"></i></div>
+									<div class="text-success" data-ng-show="asForm.selectProy.$valid && asForm.selectProy.$touched"><i class="fa fa-check"></i></div>
+		                		</div>
+			            	</div>
+			            </div>
+			            <div class="form-group">
+				            <label for="inputId" class="col-sm-4 control-label"><i class="fa fa-asterisk"></i> Tareas:</label>
+				            <div class="col-sm-7">
+					            <!-- pre>{{rhean.selectedTareas}}</pre -->
+			                    <oi-multiselect
+			                    	id="inputTareas"
+									name="inputTareas"
+									class="ng-pristine ng-valid ng-isolate-scope ng-touched"
+			                    	data-ng-oi-options="tarea.tarea for tarea in rhean.TAREAS track by tarea._id"
+									data-ng-model="rhean.selectedTareas"
+									data-ng-required="true"
+									notempty
+									multiple
+									placeholder="Selecciona Tarea(s)..."
+									></oi-multiselect>
+			                </div>
+			                <div class="col-xs-1">
+				            	<div class="center-block">
+				                	<div class="text-danger" data-ng-show="asForm.inputTareas.$invalid && asForm.inputTareas.$touched"><i class="fa fa-exclamation"></i></div>
+									<div class="text-success" data-ng-show="asForm.inputTareas.$valid && asForm.inputTareas.$touched"><i class="fa fa-check"></i></div>
+		                		</div>
+			            	</div>
+			            </div>
+			            <div class="form-group">
+				            <label for="inputFecTermino" class="col-sm-4 control-label">Comentarios:</label>
+				            <div class="col-sm-8">
+								<textarea class="form-control" data-ng-model="rhean.asignacion.comentarios" ></textarea>
+			                </div>
+			            </div>
+			        </form>
+				</div>
+				<div class="modal-footer bg-info">
+					<div class="pull-right">
+						<button type="submit" class="btn btn-success" form="asForm" data-ng-click="rhean.closeOK(asForm.$valid)" data-ng-disabled="asForm.$invalid">
+							<i class="fa fa-floppy-o"></i> Guardar
+						</button>
+						<button class="btn btn-danger" data-ng-click="rhean.closeCancel()">
+							<i class="fa fa-ban"></i> Cancelar
+						</button>
+					</div>
+				</div>
+			<!-- /div>
+		</div>
+	</div -->
+</script>

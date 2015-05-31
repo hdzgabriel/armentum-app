@@ -26,6 +26,7 @@
 		
 		function getAsignaciones(asignaciones) {
 			console.log('getAsignaciones');
+			var i;
 			console.log(asignaciones);
 			for (var a in asignaciones) {
 				console.log('asignaciones['+a+'] = ' + asignaciones[a]);

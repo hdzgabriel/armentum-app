@@ -4,6 +4,8 @@
     angular
         .module ('armentum.rh', [
 			'ngResource',
-			'smart-table'
+			'smart-table',
+			'ui.bootstrap',
+			'oi.multiselect'
 		]);
 })();

@@ -1,7 +1,7 @@
 (function() {
     'use strict';
     
-    function RecursosHumanosCtrl ($scope, RHService, ROLES_CAT, ROL_NIVELES_CAT, EQUIPOS_TRABAJO_CAT) {
+    function RecursosHumanosCtrl ($scope, RHService, ProyService, ROLES_CAT, ROL_NIVELES_CAT, EQUIPOS_TRABAJO_CAT, TAREAS) {
         var vm = this;
         
         vm.empleados_count = 0;
@@ -36,6 +36,11 @@
 			formatCatalog(EQUIPOS_TRABAJO_CAT, data, 'equipo');
 		});
 		
+		//TODO: Esto deberia estar en el controllador de proyectos o en el util para configuración.
+		ProyService.TareaSrc.query(function(data) {
+			formatCatalog (TAREAS, data, 'tarea');
+		});
+		
 		function formatCatalog (catalog, elements, name) {
 			for(var e in elements) {
 				if (!isNaN(e)) {
@@ -53,9 +58,11 @@
         .controller ('RecursosHumanosCtrl', [
             '$scope',
 			'RHService',
+			'ProyService',
 			'ROLES_CAT',
 			'ROL_NIVELES_CAT',
 			'EQUIPOS_TRABAJO_CAT',
+			'TAREAS',
             RecursosHumanosCtrl
         ]);
 		
