@@ -21,8 +21,26 @@
         vm.allowEditEmpleado = allowEditEmpleado;
         vm.cancelEditEmpleado = cancelEditEmpleado;
         vm.getCurrentDate = getCurrentDate;
+        vm.updateEmpleado = updateEmpleado;
         
 		var modalInstance = null;
+		
+		function updateEmpleado() {
+			console.log('updateEmpleado');
+			vm.empEditable = !vm.empEditable;
+			console.log('EmpleadoEdit');
+			console.log(vm.empleadoEdit);
+			console.log('updating');
+			vm.empleadoEdit.$put({id: vm.empleadoEdit._id}, function(updated) {
+				console.log('Updated');
+				vm.empleado = angular.copy(updated);
+				vm.empleadoEdit = angular.copy(updated);
+			}, function (err) {
+				console.log('Error Updating');
+				console.log(err);
+				vm.empleadoEdit = angular.copy(vm.empleado);
+			});
+		}
 		
 		function getAsignaciones(asignaciones) {
 			console.log('getAsignaciones');

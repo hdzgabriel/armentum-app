@@ -15,38 +15,42 @@
                 <div class="box-header with-border">
                     <h2 class="box-title">{{rhea.empleado.nombres}} {{rhea.empleado.apellidos}} <small>({{rhea.empleado._id}})</small> - Asignaciones</h2>
                     <div class="box-tools pull-right">
-	                    <a role="button" data-ng-class="{'btn btn-success btn-xs active' : rhea.empleado.activo, 'btn btn-danger btn-xs　active' : !rhea.empleado.activo}">
+	                    <p data-ng-class="{'text-success' : rhea.empleado.activo, 'text-muted' : !rhea.empleado.activo}" >
                         	<i data-ng-class="{'fa fa-smile-o' : rhea.empleado.activo, 'fa fa-frown-o text-muted' : !rhea.empleado.activo}"></i> {{rhea.empleado.activo ? 'Activo' : ' Inactivo'}}
-	                    </a>
+	                    </p>
                     </div>
                 </div>
-				<div class="box-body">
-					<div class="row">
-						<div class="col-xs-12">
-							<div class="pull-right">
-								<a class="btn btn-app bg-green" href="#" role="button" data-ng-click="rhea.showNewDialog()">
-	                                <i class="fa fa-plus-circle"></i>
-	                                Nueva Asignaci&oacute;n
-	                            </a>
-							</div>
-						</div>
-					</div>
-				</div>
 			</div>
 		</div>
 	</div>
+  <div class="row">
+    <div class="col-xs-11">
 	<ul class="timeline">
 		<li class="time-label">
-			<span class="bg-yellow"><i class="fa fa-briefcase"></i> {{rhea.getCurrentDate() | date: 'dd MMM yyyy'}}</span>
+			<span class="bg-blue">
+				<div class="col-xs-6">
+					<!-- div class="box-header" -->
+						<h4 class="box-title"><i class="fa fa-briefcase"></i> {{rhea.getCurrentDate() | date: 'dd MMM yyyy'}} </h4>
+					<!-- /div -->
+				</div>
+				<div class="col-xs-6">
+					<!-- div class="box-body" -->
+						<a class="btn bg-green" href="#" role="button" data-ng-click="rhea.showNewDialog()">
+						<i class="fa fa-plus-circle"></i>
+						Nueva Asignaci&oacute;n
+          				</a>
+					<!-- /div -->
+				</div> 
+          	</span>
 		</li>
 		<li data-ng-repeat="asignacion in rhea.asignaciones">
-            <i class="fa fa-user-secret bg-blue"></i>
+            <i class="fa fa-user-secret fa-3x bg-blue"></i>
             <div class="timeline-item">
 	            <span class="time"><i class="fa fa-calendar"></i> <strong>{{asignacion.fecha_ini | date: 'dd MMM yyyy'}}</strong> - <strong>{{asignacion.fecha_fin | date: 'dd MMM yyyy'}}</strong></span>
 	            <h3 class="timeline-header">{{asignacion._id}} - <a href="#">{{rhea.proyectos[asignacion.proyecto].proyecto}}</a></h3>
 	            <div class="timeline-body">
 		            <div calss="row">
-			            
+
 		            </div>
 		            <div class="row">
 			            <div class="col-md-10">
@@ -130,12 +134,24 @@
 			            </div>
 		            </div>
 	            </div>
-            </div>		
+            </div>
 		</li>
 		<li>
         	<i class="fa fa-clock-o bg-gray"></i>
         </li>
-	</ul>	
+	</ul>
+</div>
+<div class="col-xs-1">
+  <div class="pull-right">
+    <a class="btn btn-app bg-green" href="#" role="button" data-ng-click="rhea.showNewDialog()">
+                      <i class="fa fa-plus-circle"></i>
+                      Nueva Asignaci&oacute;n
+                  </a>
+  </div>
+</div>
+
+</div>
+
 </section>
 <!-- Mensaje Modal para nueva asignación -->
 <script type="text/ng-template" id="modalNewAsignacion.html">
@@ -154,14 +170,14 @@
 				            <div class="col-sm-7">
 					            <div class="input-group">
 									<!-- input type="text" class="form-control" id="inputFecInicio" datepicker-popup="{{rhean.dpFormat}}" is-open="rhean.isOpen" datepicker-options="rhean.dpOpts" min-date="rhean.minDate" max-date="'2015-06-22'" date-disabled="rhean.dpDisable(date, mode)" data-ng-required="true" close-text="close" data-ng-model="rhean.asignacion.fecha_ini" required / -->
-									<input 
-										type="text" 
-										class="form-control" 
-										id="inputFecInicio" 
+									<input
+										type="text"
+										class="form-control"
+										id="inputFecInicio"
 										name="inputFecInicio"
 										is-open="rhean.isIniOpen"
-										data-ng-required="true" 
-										data-ng-model="rhean.asignacion.fecha_ini" 
+										data-ng-required="true"
+										data-ng-model="rhean.asignacion.fecha_ini"
 										date-disabled="rhean.dateDisabled(date, mode)"
 										datepicker-popup
 										data-ng-readonly="true"
@@ -182,14 +198,14 @@
 				            <label for="inputFecTermino" class="col-sm-4 control-label">Fecha de Termino:</label>
 				            <div class="col-sm-7">
 			                    <div class="input-group">
-				                    <input 
-										type="text" 
-										class="form-control" 
-										id="inputFecTermino" 
+				                    <input
+										type="text"
+										class="form-control"
+										id="inputFecTermino"
 										name="inputFecTermino"
 										is-open="rhean.isFinOpen"
-										data-ng-required="false" 
-										data-ng-model="rhean.asignacion.fecha_fin" 
+										data-ng-required="false"
+										data-ng-model="rhean.asignacion.fecha_fin"
 										date-disabled="rhean.dateDisabled(date, mode)"
 										min-date="rhean.asignacion.fecha_ini"
 										datepicker-popup
@@ -206,12 +222,12 @@
 			            <div class="form-group">
 				            <label for="inputId" class="col-sm-4 control-label"><i class="fa fa-asterisk"></i> Rol:</label>
 				            <div class="col-sm-7">
-			                    <select 
+			                    <select
 				                    name="selectRolId"
-				                    data-ng-required="true" 
-					                class="form-control" 
-						            data-ng-options="id*1 as rol for (id, rol) in rhean.ROLES_CAT" 
-							        data-ng-model="rhean.asignacion.rol_id" 
+				                    data-ng-required="true"
+					                class="form-control"
+						            data-ng-options="id*1 as rol for (id, rol) in rhean.ROLES_CAT"
+							        data-ng-model="rhean.asignacion.rol_id"
 								    data-ng-required="true" >
 								</select>
 			                </div>
@@ -222,17 +238,17 @@
 		                		</div>
 			            	</div>
 			            </div>
-			            
+
 			            <div class="form-group">
 				            <label for="inputId" class="col-sm-4 control-label"><i class="fa fa-asterisk"></i> Nivel:</label>
 				            <div class="col-sm-7">
-			                    <select 
-				                    class="form-control" 
+			                    <select
+				                    class="form-control"
 					                data-ng-required="true"
 						            name="selectRolNivel"
-					                convert-to-number 
-						            data-ng-options="id*1 as nivel for (id, nivel) in rhean.ROL_NIVELES_CAT" 
-							        data-ng-model="rhean.asignacion.rol_nivel" 
+					                convert-to-number
+						            data-ng-options="id*1 as nivel for (id, nivel) in rhean.ROL_NIVELES_CAT"
+							        data-ng-model="rhean.asignacion.rol_nivel"
 								    data-ng-required="true" >
 								</select>
 			                </div>
@@ -246,11 +262,11 @@
 			            <div class="form-group">
 				            <label for="inputId" class="col-sm-4 control-label"><i class="fa fa-asterisk"></i> Equipo de Trabajo:</label>
 				            <div class="col-sm-7">
-			                    <select 
-				                    class="form-control" 
-					                convert-to-number 
-						            data-ng-options="id*1 as equipo for (id, equipo) in rhean.EQUIPOS_TRABAJO_CAT" 
-							        data-ng-model="rhean.asignacion.equipo_trabajo" 
+			                    <select
+				                    class="form-control"
+					                convert-to-number
+						            data-ng-options="id*1 as equipo for (id, equipo) in rhean.EQUIPOS_TRABAJO_CAT"
+							        data-ng-model="rhean.asignacion.equipo_trabajo"
 								    data-ng-required="true"
 									name="selectEqTrabajo"
 								    data-ng-required="true" >

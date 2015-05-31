@@ -14,9 +14,9 @@
                 <div class="box-header with-border">
                     <h2 class="box-title">{{rhe.empleado.nombres}} {{rhe.empleado.apellidos}} <small>({{rhe.empleado._id}})</small></h2>
                     <div class="box-tools pull-right">
-	                    <a role="button" data-ng-class="{'btn btn-success btn-xs active':rhe.empleado.activo, 'btn btn-danger btn-xs　active':!rhe.empleado.activo}">
+	                    <p data-ng-class="{'text-success' : rhea.empleado.activo, 'text-muted' : !rhea.empleado.activo}" >
                         	<i data-ng-class="{'fa fa-smile-o' : rhe.empleado.activo, 'fa fa-frown-o text-muted' : !rhe.empleado.activo}"></i> {{rhe.empleado.activo ? 'Activo' : ' Inactivo'}}
-	                    </a>
+	                    </p>
                     </div>
                 </div>
 				<div class="box-body">
@@ -30,71 +30,107 @@
                                     <div class="row">
                                         <div class="col-md-10">
                                             <div class="box-body">
-                                                <form class="form-horizontal">
+                                                <form class="form-horizontal" name="generalForm">
                                                     <div class="form-group">
                                                         <label for="inputId" class="col-sm-4 control-label">ID:</label>
-                                                        <div class="col-sm-8">
+                                                        <div class="col-sm-7">
                                                             <input type="text" class="form-control" id="inputId" data-ng-model="rhe.empleadoEdit._id" readonly="readonly" />
-                                                        </div> 
+                                                        </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="inputNoEmpleado" class="col-sm-4 control-label">No. Empleado:</label>
-                                                        <div class="col-sm-8">
-                                                            <input type="text" class="form-control" id="inputNoEmpleado" data-ng-model="rhe.empleadoEdit.no_empleado" data-ng-readonly="!rhe.empEditable"/>
+                                                        <div class="col-sm-7">
+                                                            <input type="text" class="form-control" id="inputNoEmpleado" name="inputNoEmpleado" data-ng-model="rhe.empleadoEdit.no_empleado" data-ng-readonly="!rhe.empEditable"/>
                                                         </div>
+                                                        <div class="col-sm-1">
+											                <div class="center-block">
+												                <div class="text-danger" data-ng-show="generalForm.inputNoEmpleado.$invalid"><i class="fa fa-exclamation"></i></div>
+												                <div class="text-success" data-ng-show="generalForm.inputNoEmpleado.$valid"><i class="fa fa-check"></i></div>
+										                	</div>
+										                </div>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="inputApellidos" class="col-sm-4 control-label">Apellidos:</label>
-                                                        <div class="col-sm-8">
-                                                            <input type="text" class="form-control" id="inputApellidos" data-ng-model="rhe.empleadoEdit.apellidos" data-ng-readonly="!rhe.empEditable"/>
+                                                        <label for="inputApellidos" class="col-sm-4 control-label">*Apellidos:</label>
+                                                        <div class="col-sm-7">
+                                                            <input type="text" class="form-control" data-ng-required="true" id="inputApellidos" name="inputApellidos" data-ng-model="rhe.empleadoEdit.apellidos" data-ng-readonly="!rhe.empEditable"/>
                                                         </div>
+                                                        <div class="col-sm-1">
+											                <div class="center-block">
+												                <div class="text-danger" data-ng-show="generalForm.inputApellidos.$invalid"><i class="fa fa-exclamation"></i></div>
+												                <div class="text-success" data-ng-show="generalForm.inputApellidos.$valid"><i class="fa fa-check"></i></div>
+										                	</div>
+										                </div>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="inputNombres" class="col-sm-4 control-label">Nombre(s):</label>
-                                                        <div class="col-sm-8">
-                                                            <input type="text" class="form-control" id="inputNombres" data-ng-model="rhe.empleadoEdit.nombres" data-ng-readonly="!rhe.empEditable"/>
+                                                        <label for="inputNombres" class="col-sm-4 control-label">*Nombre(s):</label>
+                                                        <div class="col-sm-7">
+                                                            <input type="text" data-ng-required="true" class="form-control" id="inputNombres" name="inputNombres" data-ng-model="rhe.empleadoEdit.nombres" data-ng-readonly="!rhe.empEditable"/>
                                                         </div>
+                                                        <div class="col-sm-1">
+											                <div class="center-block">
+												                <div class="text-danger" data-ng-show="generalForm.inputNombres.$invalid"><i class="fa fa-exclamation"></i></div>
+												                <div class="text-success" data-ng-show="generalForm.inputNombres.$valid"><i class="fa fa-check"></i></div>
+										                	</div>
+										                </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="inputCategoria" class="col-sm-4 control-label">Categoria:</label>
-                                                        <div class="col-sm-8">
+                                                        <div class="col-sm-7">
                                                             <input type="text" class="form-control" id="inputCategoria" data-ng-model="rhe.empleadoEdit.categoria" data-ng-readonly="!rhe.empEditable"/>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="inputExtUser" class="col-sm-4 control-label">Usuario Externo:</label>
-                                                        <div class="col-sm-8">
-                                                            <input type="text" class="form-control" id="inputExtUser" data-ng-model="rhe.empleadoEdit.ext_user" data-ng-readonly="!rhe.empEditable"/>
+                                                        <div class="col-sm-7">
+                                                            <input type="text" class="form-control" id="inputExtUser" name="inputExtUser" data-ng-model="rhe.empleadoEdit.ext_user" data-ng-readonly="!rhe.empEditable"/>
+                                                        </div>
+                                                        <div class="col-sm-1">
+											                <div class="center-block">
+												                <div class="text-danger" data-ng-show="generalForm.inputExtUser.$invalid"><i class="fa fa-exclamation"></i></div>
+												                <div class="text-success" data-ng-show="generalForm.inputExtUser.$valid"><i class="fa fa-check"></i></div>
+										                	</div>
+										                </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="inputEmail" class="col-sm-4 control-label">*Correo Electr&oacute;nico:</label>
+                                                        <div class="col-sm-7">
+                                                            <input type="email" class="form-control" data-ng-required="true" id="inputEmail" name="inputEmail" data-ng-model="rhe.empleadoEdit.email" data-ng-readonly="!rhe.empEditable"/>
+                                                        </div>
+                                                        <div class="col-sm-1">
+											                <div class="center-block">
+												                <div class="text-danger" data-ng-show="generalForm.inputEmail.$invalid && generalForm.inputEmail.$dirty"><i class="fa fa-exclamation"></i></div>
+												                <div class="text-success" data-ng-show="generalForm.inputEmail.$valid"><i class="fa fa-check"></i></div>
+										                	</div>
+										                </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="inputEmailAlt" class="col-sm-4 control-label">Correo Alternativo:</label>
+                                                        <div class="col-sm-7">
+                                                            <input type="email" class="form-control" id="inputExtUser" name="inputExtUser" data-ng-model="rhe.empleadoEdit.email_alt" data-ng-readonly="!rhe.empEditable"/>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="inputEmail" class="col-sm-4 control-label">Correo Electr&oacute;nico:</label>
-                                                        <div class="col-sm-8">
-                                                            <input type="text" class="form-control" id="inputEmail" data-ng-model="rhe.empleadoEdit.email" data-ng-readonly="!rhe.empEditable"/>
+                                                        <label for="inputMovil" class="col-sm-4 control-label">*M&oacute;vil:</label>
+                                                        <div class="col-sm-7">
+                                                            <input type="number" class="form-control" data-ng-required="true" id="inputMovil" name="inputMovil" data-ng-model="rhe.empleadoEdit.movil" data-ng-readonly="!rhe.empEditable"/>
                                                         </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="inputEmailAlt" class="col-sm-4 control-label">Usuario Externo:</label>
-                                                        <div class="col-sm-8">
-                                                            <input type="text" class="form-control" id="inputEmailAlt" data-ng-model="rhe.empleadoEdit.email_alt" data-ng-readonly="!rhe.empEditable"/>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="inputMovil" class="col-sm-4 control-label">M&oacute;vil:</label>
-                                                        <div class="col-sm-8">
-                                                            <input type="text" class="form-control" id="inputMovil" data-ng-model="rhe.empleadoEdit.movil" data-ng-readonly="!rhe.empEditable"/>
-                                                        </div>
+                                                        <div class="col-sm-1">
+											                <div class="center-block">
+												                <div class="text-danger" data-ng-show="generalForm.inputMovil.$invalid && generalForm.inputMovil.$dirty" ><i class="fa fa-exclamation"></i></div>
+												                <div class="text-success" data-ng-show="generalForm.inputMovil.$valid"><i class="fa fa-check"></i></div>
+										                	</div>
+										                </div>
                                                     </div>
 													<div class="form-group">
                                                         <label for="inputMovilvpn" class="col-sm-4 control-label">M&oacute;vil VPN:</label>
-                                                        <div class="col-sm-8">
-                                                            <input type="text" class="form-control" id="inputMovilvpn" data-ng-model="rhe.empleadoEdit.movil_vpn" data-ng-readonly="!rhe.empEditable"/>
+                                                        <div class="col-sm-7">
+                                                            <input type="number" class="form-control" id="inputMovilvpn" name="inputMovilvpn" data-ng-model="rhe.empleadoEdit.movil_vpn" data-ng-readonly="!rhe.empEditable"/>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="inputTelefono" class="col-sm-4 control-label">Tel&eacute;fono:</label>
-                                                        <div class="col-sm-8">
-                                                            <input type="text" class="form-control" id="inputTelefono" data-ng-model="rhe.empleadoEdit.telefono" data-ng-readonly="!rhe.empEditable"/>
+                                                        <div class="col-sm-7">
+                                                            <input type="number" class="form-control" id="inputTelefono" name="inputTelefono" data-ng-model="rhe.empleadoEdit.telefono" data-ng-readonly="!rhe.empEditable"/>
                                                         </div>
                                                     </div>
                                                 </form>
@@ -106,15 +142,15 @@
                                                 Editar
                                             </a>
                                             <a class="btn btn-app bg-red" role="button" href="#" data-ng-click="rhe.cancelEditEmpleado()" data-ng-show="rhe.empEditable">
-                                                <i class="fa fa-times-circle"></i>
+                                                <i class="fa fa-ban"></i>
                                                 Cancelar
                                             </a>
-                                            <a class="btn btn-app bg-green" role="button" href="#" data-ng-click="" data-ng-show="rhe.empEditable">
+                                            <a class="btn btn-app bg-green" role="button" href="#" data-ng-click="rhe.updateEmpleado()" data-ng-show="rhe.empEditable" data-ng-disabled="generalForm.$invalid">
                                                 <i class="fa fa-floppy-o"></i>
                                                 Guardar
                                             </a>
                                         </div>
-                                    </div> 
+                                    </div>
                                 </div>
                             </div>
                             <div class="box box-danger">
